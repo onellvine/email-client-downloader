@@ -5,8 +5,8 @@ from datetime import datetime
 from getpass import getpass
 
 username = 'nelouma@yahoo.com'
-#password = getpass("Email address password ({}): ".format(username))
-password = 'nelyaan7'
+password = getpass("Email address password ({}): ".format(username))
+
 
 imapObj = imapclient.IMAPClient('imap.mail.yahoo.com', ssl=True)
 
@@ -14,7 +14,7 @@ imapObj.login(username, password)
 
 imapObj.select_folder('inbox', readonly=True)
 
-email_ids = imapObj.search(['SINCE', '02-Nov-2019', 'FROM', 'collinsmeroka@gmail.com', 'BEFORE', '11-Nov-2019'])
+email_ids = imapObj.search(['SINCE', '02-Nov-2019', 'FROM', 'senderemail@gmail.com', 'BEFORE', '11-Nov-2019'])
 
 with open('orders.txt', 'w') as f:
     f.write("Serial no.,Date,Order no.,Order title,Page Count,Price\n")
@@ -59,7 +59,7 @@ for i in range(len(email_ids)):
         if head != "":
             price = int(head)*250
         if len(order_num) != 0 and head != "":
-            f.write(str(i) +","+ date_sent +","+ str(order_num[0]) +","+ pre.replace(',','') +","+ head.lstrip() +","+str(price)+"\n")
+            f.write(str(i) +","+ date_sent +","+ str(order_num[0]) +","+ pre.replace(',','') +","+ head.strip() +","+str(price)+"\n")
             total += price
         else:
             pass
